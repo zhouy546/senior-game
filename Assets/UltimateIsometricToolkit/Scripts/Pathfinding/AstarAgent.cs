@@ -35,12 +35,13 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Pathfinding {
 			}
 			astar.SearchPath(startNode, endNode, JumpHeight, path =>
 			{
+                astarTestScript.ismoving = true;
                 StopAllCoroutines();
 				StartCoroutine(MoveAlongPathInternal(path));              
             }, () =>
 			{
 				Debug.Log("No path found");
-			});
+            });
 		}
 
 		private IEnumerator StepTo(Vector3 from, Vector3 to, float speed) {

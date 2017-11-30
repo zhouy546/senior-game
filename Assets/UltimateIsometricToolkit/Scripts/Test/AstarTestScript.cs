@@ -14,6 +14,7 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
 {
     public class AstarTestScript : MonoBehaviour
     {
+        [SerializeField] GridGraph gridGraph;
         IsoRaycastHit isoRaycastHit;
         public static AstarTestScript instance;
 
@@ -24,7 +25,7 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
         bool isUIopen;
 #endregion
 
-        bool ismoving;
+        public bool ismoving;
 
         [SerializeField] AnimationCurve myAlphaCurve;
 
@@ -61,7 +62,7 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
 
         void OnLeftClkick() {
             if (Input.GetMouseButtonDown(0))
-            {
+            {             
                 if (!ismoving && CastRayFromMouse()) {
                     Movement(isoRaycastHit);
                 }
@@ -69,8 +70,7 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
         }
 
         void Movement(IsoRaycastHit isoRaycastHit)
-        {
-            ismoving = true;
+        {         
             if (isUIopen) {
                 CloseUI(out isUIopen);
             }
@@ -95,12 +95,15 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
 
         void OnRightClick() {
             if (Input.GetMouseButtonDown(1)&&!ismoving)
-            {               
+            {
                 if (CastRayFromMouse())
                 {
                     if (CurrentSelect != null) { SetGroundColor(Color.white); }
                     CurrentSelect = isoRaycastHit.IsoTransform.GetComponent<SpriteRenderer>();
                     //   Debug.Log(isUIopen);
+                    //wow
+                  //  Vector2 GridPos = GridGraph.NodePosToGridPos(CurrentSelect.gameObject.GetComponent<IsoTransform>().Position);
+                  //  gridGraph._gridGraph[GridPos][0].Passable=true;
                     if (!isUIopen)
                     {
                         OpenUI(out isUIopen);

@@ -28,7 +28,7 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Pathfinding {
 
 		public float MaxScanHeight = 20;
 		public bool ShowGraph = true;
-		private Dictionary<Vector2, List<Gap>> _gridGraph = new Dictionary<Vector2, List<Gap>>(); 
+		public Dictionary<Vector2, List<Gap>> _gridGraph = new Dictionary<Vector2, List<Gap>>(); 
 		public List<IsoTransform> Ignorables = new List<IsoTransform>(); 
 		#region Unity Callbacks 
 		void Start() {
@@ -86,7 +86,7 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Pathfinding {
 			return gaps;
 		} 
 
-		private static Vector2 NodePosToGridPos(Vector3 nodePos) {
+		public static Vector2 NodePosToGridPos(Vector3 nodePos) {
 			return new Vector2(Mathf.Floor(nodePos.x),Mathf.Floor(nodePos.z));
 		}
 
@@ -169,15 +169,15 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Pathfinding {
 				var gapStart = worldObjects[i].Max.y;
 				var gapEnd = nextHeight;
 				if(gapEnd-gapStart >= minGapThreshold)
-					gapList.Add(new Gap(gapStart,gapEnd,gridPos));
+					gapList.Add(new Gap(gapStart,gapEnd,gridPos, worldObjects[i]));
 			}
 
 			return gapList;
 		}
 
 		public class Gap : INode {
-
-			public bool Visited { get; set; }
+         
+            public bool Visited { get; set; }
 
 			public Vector3 Position {
 				get {
@@ -194,12 +194,12 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Pathfinding {
 			public readonly float MaxY;
 			private readonly Vector2 _gridPos;
 
-			public Gap( float minY, float maxY, Vector2 gridPos) {
+			public Gap( float minY, float maxY, Vector2 gridPos, IsoTransform isotransform) {
 				MinY = minY;
 				MaxY = maxY;
 				_gridPos = gridPos;
-				NextNodes = new HashSet<INode>();
-				Passable = true;
+                NextNodes = new HashSet<INode>();
+				Passable = false;
 				Visited = false;
 			}
 
