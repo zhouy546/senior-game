@@ -11,6 +11,10 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
         public Sprite[] value;
         public Dictionary<GameObject, Sprite> groundeDictionary = new Dictionary<GameObject, Sprite>();
         // Use this for initialization
+        void OnEnable() {
+        }
+
+
         void Start()
         {
             for (int i = 0; i < key.Length; i++)
@@ -25,13 +29,21 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
 
         }
 
+
+
+
         public void ReplaceGround(GameObject _thisgameObject)
         {
-            AstarTestScript.instance.CurrentSelect.sprite = groundeDictionary[_thisgameObject.gameObject];
-         
-            Vector2 GridPos = GridGraph.NodePosToGridPos(AstarTestScript.instance.CurrentSelect.gameObject.GetComponent<IsoTransform>().Position);
-            gridGraph._gridGraph[GridPos][0].Passable=true;
-            Debug.Log("am i a question"+gridGraph._gridGraph[GridPos][0].IsQuestion);
+            if (AstarTestScript.instance.CurrentSelect != null) {
+                AstarTestScript.instance.CurrentSelect.sprite = groundeDictionary[_thisgameObject.gameObject];
+
+                Vector2 GridPos = GridGraph.NodePosToGridPos(AstarTestScript.instance.CurrentSelect.gameObject.GetComponent<IsoTransform>().Position);
+                gridGraph._gridGraph[GridPos][0].Passable = true;
+                Debug.Log("am i a question" + gridGraph._gridGraph[GridPos][0].IsQuestion);
+
+                //TriggerEVENT;
+                AstarTestScript.instance.RegisterPlayer[AstarTestScript.instance.currentPlayer].PaveRoad();
+            }    
         }
     }
 }

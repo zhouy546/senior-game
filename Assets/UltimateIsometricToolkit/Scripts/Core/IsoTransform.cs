@@ -118,6 +118,10 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core {
 		void OnEnable() {
 			if (isoSorting != null)
 				isoSorting.Resolve(this);
+
+            if (question&&this.gameObject.tag=="ground") {
+                setColor(this.gameObject, Color.red);
+            }
 		}
 
 		void OnDisable() {
@@ -175,5 +179,8 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core {
 				transform.parent = value.transform;
 			}
 		}
-	}
+        public void setColor(GameObject _gameObject,Color _color) {
+            _gameObject.GetComponent<SpriteRenderer>().color = _color;
+        }
+    }
 }

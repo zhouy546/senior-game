@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 114448373253469764}
   - component: {fileID: 212425730633348852}
   - component: {fileID: 114864875107591452}
+  - component: {fileID: 114826885556773008}
   m_Layer: 0
   m_Name: AstarAgent (1)
   m_TagString: Untagged
@@ -183,6 +184,7 @@ GameObject:
   - component: {fileID: 114900747119570054}
   - component: {fileID: 212106754718463682}
   - component: {fileID: 114952621167771384}
+  - component: {fileID: 114949886852783498}
   m_Layer: 0
   m_Name: AstarAgent
   m_TagString: Untagged
@@ -214,7 +216,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1947081989218356}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -456.26114, y: -214.7647, z: 3.8458712}
+  m_LocalPosition: {x: -405.22055, y: -216.8491, z: 0.23555928}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224977911343944822}
@@ -228,7 +230,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1933324371334244}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -464.5147, y: -213.4674, z: 6.060337}
+  m_LocalPosition: {x: -413.07108, y: -213.68922, z: 5.676135}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224625563255650550}
@@ -423,7 +425,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowBounds: 1
-  _position: {x: 0, y: 0.895178, z: 10.627399}
+  question: 0
+  _position: {x: 0, y: 0.895178, z: 10}
   _size: {x: 0.7, y: 1.2, z: 0.7}
   _parent: {fileID: 0}
 --- !u!114 &114537278394588676
@@ -518,6 +521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feed8d36f2aae7f4393fbf7cfe5ff758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridGraph: {fileID: 0}
   key:
   - {fileID: 1943514143485924}
   - {fileID: 1047008668201034}
@@ -766,6 +770,17 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114826885556773008
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1933324371334244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3ba928c96ee4614bbb812549c0d526d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114864875107591452
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -777,10 +792,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fe3a1593f1e1994aa2d2cfa3b8dc9ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JumpHeight: 1
+  player: {fileID: 114826885556773008}
+  amIGoingFirst: 0
+  BaseParamater:
+    Pavetimes: 3
+    playerState: 0
+  CurrentParamater:
+    Pavetimes: 3
+    playerState: 0
+  astarTestScript: {fileID: 0}
+  JumpHeight: 0
   Speed: 4
   Graph: {fileID: 0}
-  heuristic: 1
+  heuristic: 2
 --- !u!114 &114900747119570054
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -793,9 +817,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowBounds: 1
-  _position: {x: 4.021416, y: 0.878925, z: 2.9765046}
+  question: 0
+  _position: {x: 1.1023059, y: 0.878925, z: 0}
   _size: {x: 0.7, y: 1.2, z: 0.7}
   _parent: {fileID: 0}
+--- !u!114 &114949886852783498
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1947081989218356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3ba928c96ee4614bbb812549c0d526d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114952621167771384
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -807,10 +843,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fe3a1593f1e1994aa2d2cfa3b8dc9ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JumpHeight: 1
+  player: {fileID: 114949886852783498}
+  amIGoingFirst: 1
+  BaseParamater:
+    Pavetimes: 3
+    playerState: 0
+  CurrentParamater:
+    Pavetimes: 3
+    playerState: 0
+  astarTestScript: {fileID: 0}
+  JumpHeight: 0
   Speed: 4
   Graph: {fileID: 0}
-  heuristic: 1
+  heuristic: 2
 --- !u!212 &212106754718463682
 SpriteRenderer:
   m_ObjectHideFlags: 1
