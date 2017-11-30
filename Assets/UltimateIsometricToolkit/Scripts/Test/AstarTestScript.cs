@@ -43,15 +43,12 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
 
         void Start()
         {
-
             RegisterPlayer.Add("Player1", 0);
             RegisterPlayer.Add("Player2", 1);
-
         }
 
         void Update()
         {
-            Debug.Log("ismoving is" + ismoving);
             OnRightClick();
             OnLeftClkick();
         }
@@ -65,9 +62,6 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
         void OnLeftClkick() {
             if (Input.GetMouseButtonDown(0))
             {
-           // Debug.Log("click");
-          //  Debug.Log("ismoving is" + ismoving);
-           // Debug.Log("CastRayFromMouse() is" + CastRayFromMouse().ToString());
                 if (!ismoving && CastRayFromMouse()) {
                     Movement(changePlayer, isoRaycastHit);
                 }
@@ -76,10 +70,10 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
 
         void Movement(UnityAction CallAction, IsoRaycastHit isoRaycastHit)
         {
-            Debug.Log("ismoving" + ismoving);
-            //raycast when mouse clicked               
             ismoving = true;
-            Debug.Log("Moving to " + isoRaycastHit.Point);
+            if (isUIopen) {
+                CloseUI(out isUIopen);
+            }
             index = -index;
             if (index > 0)
             {
@@ -103,9 +97,8 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
         }
 
         void OnRightClick() {
-            if (Input.GetMouseButtonDown(1))
-            {
-                
+            if (Input.GetMouseButtonDown(1)&&!ismoving)
+            {               
                 if (CastRayFromMouse())
                 {
                     if (CurrentSelect != null) { SetGroundColor(Color.white); }
@@ -135,7 +128,6 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
         void OpenUI(out bool _IsUIopen) {
             _IsUIopen = true;
             LeanTween.moveX(ReplaceUI.gameObject, 50f, .3f).setOnComplete( delegate() {
-                Debug.Log("open");
             });                  
          }
 
@@ -144,7 +136,6 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
             LeanTween.moveX(ReplaceUI.gameObject, -50f, .3f);
             SetGroundColor(Color.white);
             CurrentSelect = null;
-            Debug.Log("close"); 
         }
 
         void SetGroundColor(Color _color) {
@@ -155,7 +146,6 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
 
         void changePlayer()
         {
-
             LeanTween.value(0, 1, 1f).setDelay(2).setEase(myAlphaCurve).setOnUpdate((float value) =>
             {
                 BlackScreen.color = new Color(0, 0, 0, value);

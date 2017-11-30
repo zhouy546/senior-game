@@ -46,7 +46,6 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Pathfinding {
 			var timePassed = 0f;
 			var isoTransform = GetComponent<IsoTransform>();
 			var maxTimePassed = Vector3.Distance(from, to) / speed;
-			
 			while (timePassed + Time.deltaTime < maxTimePassed) {
 				timePassed += Time.deltaTime;
 				isoTransform.Position = Vector3.Lerp(from, to, timePassed/maxTimePassed);
@@ -56,7 +55,7 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Pathfinding {
 		}
 
 		private IEnumerator MoveAlongPathInternal(IEnumerable<Vector3> path) {
-			foreach (var pos in path) {
+            foreach (var pos in path) {
 				yield return StepTo(GetComponent<IsoTransform>().Position, pos + new Vector3(0, GetComponent<IsoTransform>().Size.y / 2, 0), Speed);
 			}
 
