@@ -14,7 +14,6 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
 {
     public class AstarTestScript : MonoBehaviour
     {
-        [SerializeField] GridGraph gridGraph;
         IsoRaycastHit isoRaycastHit;
         public static AstarTestScript instance;
 
@@ -31,7 +30,7 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
 
         public AstarAgent[] AstarAgent = new AstarAgent[2];
         public Dictionary<string, int> RegisterPlayer = new Dictionary<string, int>();
-        int index = -1;
+        public int index = 1;
         // Update is called once per frame
         void Awake()
         {
@@ -74,7 +73,7 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
             if (isUIopen) {
                 CloseUI(out isUIopen);
             }
-            index = -index;
+            
             if (index > 0)
             {
                 //	player 1 
@@ -101,9 +100,7 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
                     if (CurrentSelect != null) { SetGroundColor(Color.white); }
                     CurrentSelect = isoRaycastHit.IsoTransform.GetComponent<SpriteRenderer>();
                     //   Debug.Log(isUIopen);
-                    //wow
-                  //  Vector2 GridPos = GridGraph.NodePosToGridPos(CurrentSelect.gameObject.GetComponent<IsoTransform>().Position);
-                  //  gridGraph._gridGraph[GridPos][0].Passable=true;
+
                     if (!isUIopen)
                     {
                         OpenUI(out isUIopen);
@@ -167,9 +164,7 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
             {
                 return 0;
             }
-
             return 0;
-
         }
 
     }

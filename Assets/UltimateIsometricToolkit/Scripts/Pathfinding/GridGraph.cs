@@ -169,7 +169,7 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Pathfinding {
 				var gapStart = worldObjects[i].Max.y;
 				var gapEnd = nextHeight;
 				if(gapEnd-gapStart >= minGapThreshold)
-					gapList.Add(new Gap(gapStart,gapEnd,gridPos, worldObjects[i]));
+					gapList.Add(new Gap(gapStart,gapEnd,gridPos, worldObjects[i], worldObjects[i].question));
 			}
 
 			return gapList;
@@ -188,16 +188,23 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Pathfinding {
 			public HashSet<INode> NextNodes { get; private set; }
 
 			public bool Passable { get; set; }
-			public bool IsQuestion{ get; set; }
+            bool _isquestion;
+			public bool IsQuestion{ get {return _isquestion; }
+                set
+                {
+                    _isquestion =value;
+                }
+            }
 
 			public readonly float MinY;
 			public readonly float MaxY;
 			private readonly Vector2 _gridPos;
 
-			public Gap( float minY, float maxY, Vector2 gridPos, IsoTransform isotransform) {
+			public Gap( float minY, float maxY, Vector2 gridPos, IsoTransform isotransform,bool _isquestion = false) {
 				MinY = minY;
 				MaxY = maxY;
 				_gridPos = gridPos;
+                IsQuestion = _isquestion;
                 NextNodes = new HashSet<INode>();
 				Passable = false;
 				Visited = false;

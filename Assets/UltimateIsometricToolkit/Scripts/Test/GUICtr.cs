@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using Assets.UltimateIsometricToolkit.Scripts.Pathfinding;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace Assets.UltimateIsometricToolkit.Scripts.Core
 {
     public class GUICtr : MonoBehaviour
     {
+        [SerializeField] GridGraph gridGraph;
         public GameObject[] key;
         public Sprite[] value;
         public Dictionary<GameObject, Sprite> groundeDictionary = new Dictionary<GameObject, Sprite>();
@@ -26,6 +28,10 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
         public void ReplaceGround(GameObject _thisgameObject)
         {
             AstarTestScript.instance.CurrentSelect.sprite = groundeDictionary[_thisgameObject.gameObject];
+         
+            Vector2 GridPos = GridGraph.NodePosToGridPos(AstarTestScript.instance.CurrentSelect.gameObject.GetComponent<IsoTransform>().Position);
+            gridGraph._gridGraph[GridPos][0].Passable=true;
+            Debug.Log("am i a question"+gridGraph._gridGraph[GridPos][0].IsQuestion);
         }
     }
 }

@@ -36,6 +36,7 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Pathfinding {
 			astar.SearchPath(startNode, endNode, JumpHeight, path =>
 			{
                 astarTestScript.ismoving = true;
+               // astarTestScript.index = -astarTestScript.index;
                 StopAllCoroutines();
 				StartCoroutine(MoveAlongPathInternal(path));              
             }, () =>
@@ -56,8 +57,7 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Pathfinding {
 			}
 		}
 
-		private IEnumerator MoveAlongPathInternal(IEnumerable<Vector3> path) {
-         
+		private IEnumerator MoveAlongPathInternal(IEnumerable<Vector3> path) {        
             foreach (var pos in path) {
 				yield return StepTo(GetComponent<IsoTransform>().Position, pos + new Vector3(0, GetComponent<IsoTransform>().Size.y / 2, 0), Speed);
 			}

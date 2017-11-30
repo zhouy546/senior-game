@@ -19,8 +19,9 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core {
 		/// <summary>
 		/// Flag to toggle isometric bounds gizmos in scene gui
 		/// </summary>
-		public bool ShowBounds = true; 
+		public bool ShowBounds = true;
 
+        public bool question;
 		/// <summary>
 		/// Child IsoTransform components
 		/// </summary>
