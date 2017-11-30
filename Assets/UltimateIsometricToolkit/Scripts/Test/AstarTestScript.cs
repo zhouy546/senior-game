@@ -14,26 +14,19 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
 {
     public class AstarTestScript : MonoBehaviour
     {
+        IsoRaycastHit isoRaycastHit;
         public static AstarTestScript instance;
 
-      public  SpriteRenderer CurrentSelect;
-
-
-       [SerializeField] RectTransform ReplaceUI;
-
-       [SerializeField]
-        AnimationCurve myAlphaCurve;
+#region GUI
+        public  SpriteRenderer CurrentSelect;
+        [SerializeField] RectTransform ReplaceUI;
+        [SerializeField] Image BlackScreen;
+        bool isUIopen;
+#endregion
 
         bool ismoving;
-        public float speed;
 
-        [SerializeField]
-        Image BlackScreen;
-
-        [SerializeField]
-        Sprite[] replaceGroundSprite;
-
-        bool isUIopen;
+        [SerializeField] AnimationCurve myAlphaCurve;
 
         public AstarAgent[] AstarAgent = new AstarAgent[2];
         public Dictionary<string, int> RegisterPlayer = new Dictionary<string, int>();
@@ -58,19 +51,70 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
 
         void Update()
         {
-            Movement(changePlayer);
+            Debug.Log("ismoving is" + ismoving);
+            OnRightClick();
+            OnLeftClkick();
+        }
+
+        bool CastRayFromMouse() {
+            var isoRay = Isometric.MouseToIsoRay();          
+            return IsoPhysics.Raycast(isoRay, out isoRaycastHit);            
+        }
+
+
+        void OnLeftClkick() {
+            if (Input.GetMouseButtonDown(0))
+            {
+           // Debug.Log("click");
+          //  Debug.Log("ismoving is" + ismoving);
+           // Debug.Log("CastRayFromMouse() is" + CastRayFromMouse().ToString());
+                if (!ismoving && CastRayFromMouse()) {
+                    Movement(changePlayer, isoRaycastHit);
+                }
+            }
+        }
+
+        void Movement(UnityAction CallAction, IsoRaycastHit isoRaycastHit)
+        {
+            Debug.Log("ismoving" + ismoving);
+            //raycast when mouse clicked               
+            ismoving = true;
+            Debug.Log("Moving to " + isoRaycastHit.Point);
+            index = -index;
+            if (index > 0)
+            {
+                //	player 1 
+                int index = getPlayerID("Player1");
+                AstarAgent[index].MoveTo(isoRaycastHit.Point);
+                Debug.Log("player1 moving");
+
+                // event""
+                CallAction();
+            }
+            else
+            {
+                //player 2
+                int index = getPlayerID("Player2");
+                AstarAgent[index].MoveTo(isoRaycastHit.Point);
+                Debug.Log("Player2 moving");
+                CallAction();
+                //event""
+            }            
+        }
+
+        void OnRightClick() {
             if (Input.GetMouseButtonDown(1))
             {
-                var isoRay = Isometric.MouseToIsoRay();
-                IsoRaycastHit isoRaycastHit;
-                if (IsoPhysics.Raycast(isoRay, out isoRaycastHit))
+                
+                if (CastRayFromMouse())
                 {
                     if (CurrentSelect != null) { SetGroundColor(Color.white); }
                     CurrentSelect = isoRaycastHit.IsoTransform.GetComponent<SpriteRenderer>();
-                    Debug.Log(isUIopen);
-                    if (!isUIopen) {
+                    //   Debug.Log(isUIopen);
+                    if (!isUIopen)
+                    {
                         OpenUI(out isUIopen);
-                    }    
+                    }
                     SetGroundColor(Color.gray);
                 }
                 else
@@ -107,40 +151,7 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
             CurrentSelect.color = _color;
         }
 
-        void Movement(UnityAction CallAction)
-        {
-            //raycast when mouse clicked
-            if (Input.GetMouseButtonDown(0) && !ismoving)
-            {
-                ismoving = true;
-                var isoRay = Isometric.MouseToIsoRay();
-                IsoRaycastHit isoRaycastHit;
-                if (IsoPhysics.Raycast(isoRay, out isoRaycastHit))
-                {
-                    Debug.Log("Moving to " + isoRaycastHit.Point);
-                    index = -index;
-                    if (index > 0)
-                    {
-                        //	player 1 
-                        int index = getPlayerID("Player1");
-                        AstarAgent[index].MoveTo(isoRaycastHit.Point);
-                        Debug.Log("player1 moving");
-
-                        // event""
-                        CallAction();
-                    }
-                    else
-                    {
-                        //player 2
-                        int index = getPlayerID("Player2");
-                        AstarAgent[index].MoveTo(isoRaycastHit.Point);
-                        Debug.Log("Player2 moving");
-                        CallAction();
-                        //event""
-                    }
-                }
-            }
-        }
+        
 
         void changePlayer()
         {

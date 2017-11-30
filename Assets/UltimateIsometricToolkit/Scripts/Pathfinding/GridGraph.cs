@@ -199,7 +199,7 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Pathfinding {
 				MaxY = maxY;
 				_gridPos = gridPos;
 				NextNodes = new HashSet<INode>();
-				Passable = false;
+				Passable = true;
 				Visited = false;
 			}
 
