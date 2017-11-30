@@ -63,12 +63,12 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
             if (Input.GetMouseButtonDown(0))
             {
                 if (!ismoving && CastRayFromMouse()) {
-                    Movement(changePlayer, isoRaycastHit);
+                    Movement(isoRaycastHit);
                 }
             }
         }
 
-        void Movement(UnityAction CallAction, IsoRaycastHit isoRaycastHit)
+        void Movement(IsoRaycastHit isoRaycastHit)
         {
             ismoving = true;
             if (isUIopen) {
@@ -82,8 +82,6 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
                 AstarAgent[index].MoveTo(isoRaycastHit.Point);
                 Debug.Log("player1 moving");
 
-                // event""
-                CallAction();
             }
             else
             {
@@ -91,8 +89,7 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
                 int index = getPlayerID("Player2");
                 AstarAgent[index].MoveTo(isoRaycastHit.Point);
                 Debug.Log("Player2 moving");
-                CallAction();
-                //event""
+
             }            
         }
 
@@ -142,17 +139,15 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Core
             CurrentSelect.color = _color;
         }
 
-        
-
-        void changePlayer()
+        public void changePlayer()
         {
-            LeanTween.value(0, 1, 1f).setDelay(2).setEase(myAlphaCurve).setOnUpdate((float value) =>
-            {
-                BlackScreen.color = new Color(0, 0, 0, value);
-            }).setOnComplete(delegate ()
-            {
-                ismoving = false;
-            });
+                LeanTween.value(0, 1, 1f).setEase(myAlphaCurve).setOnUpdate((float value) =>
+                {
+                    BlackScreen.color = new Color(0, 0, 0, value);
+                }).setOnComplete(delegate ()
+                {
+                    ismoving = false;
+                });     
         }
         /// <summary>
         /// Changezeros the and one.

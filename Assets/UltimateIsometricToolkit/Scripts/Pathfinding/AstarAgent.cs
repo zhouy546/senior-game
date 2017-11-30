@@ -10,6 +10,7 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Pathfinding {
 	/// </summary>
 	[RequireComponent(typeof(IsoTransform)), AddComponentMenu("UIT/Pathfinding/A* Agent")]
 	public class AstarAgent : MonoBehaviour {
+        public AstarTestScript astarTestScript;
 		public float JumpHeight = 1; //vertical distance threshold to next node
 		public float Speed = 2; //units per second
 		public GridGraph Graph;
@@ -34,9 +35,9 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Pathfinding {
 			}
 			astar.SearchPath(startNode, endNode, JumpHeight, path =>
 			{
-				StopAllCoroutines();
-				StartCoroutine(MoveAlongPathInternal(path));
-			}, () =>
+                StopAllCoroutines();
+				StartCoroutine(MoveAlongPathInternal(path));              
+            }, () =>
 			{
 				Debug.Log("No path found");
 			});
@@ -55,11 +56,12 @@ namespace Assets.UltimateIsometricToolkit.Scripts.Pathfinding {
 		}
 
 		private IEnumerator MoveAlongPathInternal(IEnumerable<Vector3> path) {
+         
             foreach (var pos in path) {
 				yield return StepTo(GetComponent<IsoTransform>().Position, pos + new Vector3(0, GetComponent<IsoTransform>().Size.y / 2, 0), Speed);
 			}
-
-		}
+            astarTestScript.changePlayer();
+        }
 
 		private Astar.Heuristic GetFromEnum(Heuristic heuristic) {
 			switch (heuristic) {
